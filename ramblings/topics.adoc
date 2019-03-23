@@ -1,0 +1,266 @@
+= Working on FOSS using Git, GitHub, and Agile Practices
+:sectnums:
+
+== Introduction
+
+=== Stories/Requirements
+
+.My story
+> I'm writing this because I teach courses in which students work in teams to
+contribute to free and open-source (FOSS) projects using Git, GitHub, and agile
+practices and I wish I had a comprehensive guide that I could hand them that
+explains a way to develop software using these tools and practices. This work
+will hopefully become that guide.
+
+.Developer story
+> As a developer working in one of many teams, I want to know my role in
+the development process and how to contribute effectively so that I can become
+a valuable and respected member of the project.
+
+.Project coordinator story
+> As a project coordinator, I want an effective off-the-shelf workflow that my
+developers can follow so they can effectively and efficiently develop a project.
+
+
+=== Conventions
+== Preliminaries
+=== Install and configure Git
+=== Create an account on Git hosting service
+== Overview of Workflow
+=== Structure
+=== Process
+
+----
+<<fork the upstream>>
+<<clone the fork>>
+<<create scrum board>>
+until done
+    <<groom the backlog>>
+    <<claim issue>>
+
+----
+
+
+
+
+----
+<<create an organization fork>>
+
+
+Forever
+    <<groom the backlog>>
+    <<claim an issue>>
+    <<
+----
+
+== Details
+=== Clone the fork
+=== Update master
+=== Update issue branch
+=== Service Operations
+=== Fork upstream project
+=== Create pull-request
+=== Request review
+=== Development Practices
+
+
+==== Clone the fork
+[subs=+macros]
+----
+$ cd PARENT-OF-CLONE-DIR
+$ git clone URL-TO-FORK
+$ cd CLONE-DIR
+$ git remote add upstream URL-TO-UPSTREAM
+----
+
+
+== Create a new branch
+[subs=+macros]
+----
+$ git checkout master
+$ git pull upstream master
+$ git branch BRANCH-NAME #<1>
+$ git checkout BRANCH-NAME
+$ git commit --allow-empty -m "Start work on BRANCH-NAME"
+$ git push -u origin BRANCH-NAME
+----
+<1> Replace BRANCH-NAME with a name related to the issue you will be working on.
+
+Services like GitHub will not allow you to create a pull-request from an empty branch.
+To allow us immediately create a pull-request from our new branch,
+  we make an empty commit (`git commit --allow-empty`).
+
+
+== Work on a branch
+[subs=+macros]
+----
+$ git checkout BRANCH-NAME
+$ git pull
+<<Make and test a small change>>
+$ git add .
+$ git commit
+$ git pull
+<<Resolve conflicts detected by Git>>
+<<Resolve conflicts not detected by Git>>
+$ git push
+----
+
+=== Make and test a small change
+
+Use your development environment to make and test a small change.
+There is no hard and fast rule about how small a change should be.
+The important thing is that each commit be a single logical change.
+I also prefer that it is tested, meaning that every commit compiles,
+runs, and passes all tests, including new tests written to test the
+new code. To this end, I find a single cycle using a test-first
+approach creates a single logical change.
+
+.Test-first cycle
+. Write a failing test for one requirement.
+. Write just enough code to pass the test.
+. Refactor code and test-code to clean it up and improve their design.
+
+NOTE: Test-first software development approaches advocate writing automated
+tests before writing the code that passes the tests. Behavior Driven Development (BDD) and Test Driven Development (TDD)
+are two well-known test-first approaches to software development.
+
+== Update master
+[subs=+macros]
+----
+$ git checkout master
+$ git pull upstream master
+$ git pull
+$ git push
+----
+
+
+== Update a branch
+[subs=+macros]
+----
+<<Update master>>
+$ git checkout BRANCH-NAME
+$ git merge master
+$ git pull
+$ git push
+----
+
+
+
+== LeSS and Git**b
+
+LeSS is Large Scale Scrum. Scrum is a lightweight process for a team. LeSS
+provides a set of principles and practices for managing multiple Scrum teams
+to develop software on a single project.
+
+. Create an organization to represent the shop.
+. Fork upstream into the shop.
+. Protect master in fork.
+. Add Scrum labels to tracker.
+. Add all team members to the shop and/or the fork.
+. Create a Scrum board in the fork.
+. Create a definition of ready in the fork's wiki.
+. Create a definition of done in the fork's wiki.
+. Add epics and stories to the backlog in scrum board.
+. Groom the backlog until highest priority stories have been refined and
+are ready.
+. Teams select ready stories for sprint and assign them to themselves.
+. Each team creates a task board for the team.
+. Each team adds their selected stories to their board.
+. Each team creates task cards and adds them to their boards.
+. Sprint on ready stories.
+. During sprint groom the backlog in preparation for future sprints.
+. Review "done" stories.
+. Retrospective.
+
+
+* Create a project board for a Scrum board with the following columns:
+`Backlog`, `Ready`, `Sprinting`, and `Done`.
+* Create type labels for `Epic`, `Story`, and `Task`.
+* Create story point labels: `1`, `2`, `3`, `5`, `8`, `13`, `20`, and `40`.
+
+
+Stories
+* As a <role>, I want <what> so that <why>
+
+
+Convert epics to milestones when its stories are generated.
+Add generated stories to the epic.
+
+Stories break
+
+
+
+== Labels
+
+* Epic
+* Story
+* Task
+
+* bug
+* spike
+* refactor
+* dev infra
+* product infra - a story/task
+
+
+* 1
+* 2
+* 3
+* 5
+* 8
+* 13
+* 20
+* 40
+
+
+Each issue should be an epic, story, or task. Epics represent a collection of
+stories related in subject.
+
+== Templates
+
+=== Story
+
+----
+As a <role>, I want <something> so that <benefit>.
+a
+
+Acceptance Criteria
+-------------------
+* Must meet the criteria listed on the Definition of Done.
+* ?
+
+
+Examples/Specification
+----------------------
+
+<title>
+
+* Given <context>.
+* When <some action is performed>.
+* Then <what can be observed>.
+
+Dependencies
+------------
+* Blocked by #<issue number>
+
+----
+
+
+=== Scrum board
+
+GitLab's "boards" and GitHub's "projects" allow us to visualize and organize
+issues as cards in columns. This is exactly what we need for our scrum board.
+In the
+
+
+== References and Resources
+
+* https://guides.github.com/introduction/flow/[GitHubFlow]
+* https://gist.github.com/Chaser324/ce0505fbed06b947d962[GitHub Standard Fork & Pull Request Workflow]
+* https://www.scrum.org/resources/what-is-scrum[Scrum]
+* https://less.works/[LeSS]
+* https://codetree.com/[Codetree]
+* http://rgalen.com/agile-training-news/2013/11/10/technical-user-stories-what-when-and-how[Technical Stories]
+* https://medium.com/@Carmichaelize/writing-better-user-stories-and-bug-tickets-3cb5165e7db[Issue Templates]
+* https://github.com/stevemao/github-issue-templates[templates]
+* https://github.com/jvandemo/github-scrum-workflow[GitHub and Scrum]

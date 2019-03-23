@@ -1,0 +1,79 @@
+= Scrum on GitHub
+
+== Mapping
+* Epic => milestone (or an issue before becoming a milestone)
+* Story => issue
+* Tasks => checklist on PR
+* Scrum board => board
+* Definition of ready => checklist on issue template
+* Definition of done => checklist on issue template
+
+
+
+== Labels
+=== Size labels (all same color)
+* 1
+* 2
+* 3
+* 5
+* 8
+* 13
+* 20
+* 40
+
+
+=== Other Labels
+- https://robinpowered.com/blog/best-practice-system-for-organizing-and-tagging-github-issues/
+- https://github.com/GlanceLeads/scrum-template
+
+
+
+
+== Scrum Board
+|===
+| Product Backlog | Sprint Backlog | In Progress | Done
+
+| Open issues
+| Open, assigned issues that meets DoR and have been selected for sprint.
+| PRs with task lists for stories in sprint backlog
+| Merged PRs and closed issues for merged PRs.
+|===
+
+
+
+
+== Splitting stories
+
+.If the story is part of an epic
+. Add new smaller stories to same epic.
+. Remove original Story.
+
+.If the story is not part of an epic
+. Create a new epic based on the story.
+. Add new smaller stories to new epic.
+. Remove original Story.
+
+
+
+== Templates
+
+=== Story template
+
+* Story form: As a [role], I want [action] so that [achievement].
+* Checklist for definition of ready.
+* Acceptance criteria
+
+=== Pull-request template
+
+* "Issues closed by this PR" list.
+* Checklist for definition of done.
+
+
+
+
+== References
+
+- https://www.atlassian.com/agile/project-management/epics-stories-themes
+- https://www.scrumalliance.org/community/articles/2014/march/stories-versus-themes-versus-epics
+- https://github.com/GlanceLeads/scrum-template
+- https://hugogiraudel.com/2015/08/13/github-as-a-workflow/

@@ -1,0 +1,29 @@
+
+* The project needs a mission statement so that all have understand the purpose
+and scope of the project.
+
+* The project needs a roadmap that lists initiatives and themes so that all
+understand the direction the project is trying to move. (A board? Columns = Initiative? Card = Epic?)
+
+
+* Initiative
+** Epic
+*** Story
+**** Task
+**** Task
+**** Task
+**** Task
+*** Story
+*** Story
+** Epic
+*** Story
+*** Story
+* Initiative
+** Epic
+*** Story
+*** Story
+** Epic
+*** Story
+*** Story
+*** Story
+*** Story

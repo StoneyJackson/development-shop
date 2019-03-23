@@ -1,0 +1,272 @@
+= Contributing to FOSS using Scrum/LeSS on GitHub
+
+== Introduction
+
+There are four _things_ in the title of this document:
+FOSS, Scrum, LeSS, and GitHub.
+In this section, each of these _things_ are briefly summarized
+and pointers to more information are provided.
+
+=== Scrum
+
+Scrum is an agile software development process.
+In Scrum, there is a 3-5 person development team, a Scrum Master, and a Product Owner.
+They work in short intervals, usually 1-4 weeks in length, called sprints to
+add an increment of value to a potentially ship-able product.
+
+I'm assuming that you are reasonably familiar with the basic elements of
+Scrum---its roles, artifacts, and ceremonies.
+If you are new to Scrum or want a refresher here are a couple of good sources.
+
+* https://www.scrumalliance.org/learn-about-scrum[Scrum Alliance's Learn about scrum]
+* https://www.scrum.org/[Scrum.org]
+
+
+=== LeSS
+
+Large Scale Scrum (LeSS) is an extension to Scrum for multiple Scrum teams to
+develop a single product. In LeSS there is one Product Owner, one Product Backlog,
+one Scrum Master, and multiple teams, each with a separate sprint backlog.
+
+I'm assuming that you are reasonably familiar with the basics of LeSS.
+If you are new to LeSS, or want to brush up on its concepts,
+you can read more about LeSS at https://less.works/.
+
+
+=== GitHub
+
+NOTE: You should be able to adapt these instructions to GitLab too.
+When there is a difference to be aware of, I'll make a note like this.
+
+GitHub is a cloud-based service for developing software projects. GitHub provides
+each project with a git repository, an issue tracker, a wiki, as well as other
+common tools developers need to coordinate and build software.
+
+I'm assuming that you are reasonably familiar with the basics of GitHub.
+If you are new to GitHub, or want to brush up on GitHub concepts,
+you can read more about GitHub at https://help.github.com/.
+
+
+=== FOSS
+
+FOSS is free (as in liberty) and open-source software. For more information
+see https://en.wikipedia.org/wiki/Free_and_open-source_software.
+
+
+
+
+== The Setup
+
+=== Create an organization
+
+On GitHub, create an _organization_ for your software shop. This provides a
+space within which you and your developers can work.
+
+
+=== Fork upstream
+
+On GitHub, fork the FOSS project you plan to contribute to into your organization.
+We will call the project you forked _upstream_ and the fork you created the _fork_.
+
+TIP: To help ovoid confusion, change the description of the fork to clearly
+tell visitors that this is not the real project,
+and where to find the real project.
+
+
+=== Enable the fork's issue tracker
+
+Enable the fork's issue tracker. This is in the settings of the project.
+
+Having two issue trackers related to the same project could create some problems.
+Before we identify and address those problems, we first need to address whether
+a second issue tracker is necessary.
+
+You and your developers need a place to plan and coordinate.
+Planing efforts like rewriting issues as stories, subdividing them into smaller
+stories, create milestones from epics, etc. may be needed for your team to work
+effectively on issues, but may be noise to the general community. Having a
+separate issue tracker will allow your teams to plan and coordinate without
+disturbing upstream.
+
+OK, so what could go wrong with two issue trackers? First, someone may file
+an issue in the fork that should have been filed with upstream. We can help
+avoid these situation by adding a warning to our issue templates. Something
+like:
+
+> Warning: If you are trying file an issue for PROJECT, please use its issue
+tracker: LINK-TO-PROJECTS-ISSUE-TRACKER. This issue tracker belongs to a fork
+of that project, and is used to manage team developers that are working on that
+project.
+
+Second, we need to make sure that we and our developers know when and how to
+use each issue tracker.
+
+The first guiding principle is to keep discussions about requirements in
+upstream. This is where the community is. We need their feedback and help
+to clarify issues.
+
+The second guiding principle is to keep activities like backlog grooming in the fork.
+Splitting an issue because your developers need to make it smaller and more refined before it
+can be sprinted on is an internal shop issue. The community outside the shop
+probably does not care about how you are breaking down the problem. That's not
+to say that they aren't welcome to watch and even participate if they chose to;
+however, they shouldn't need to participate or be impeded by your shops planning.
+
+The third guiding principle is whenever possible, create links from issues in
+the fork to issues in upstream.
+
+The fourth guiding principle is to not create links from upstream to the fork.
+The reason is to help keep the discussion of requirements in upstream and avoid
+such discussions to spill onto the fork where most of the community isn't
+looking.
+
+The fifth guiding principle is to create links to both in pull-request messages.
+Remember that pull-requests exist in upstream. So links to the fork issues need
+to be preceded with organization/fork. Also, since non team members will be
+looking at the pull request it's important to make sure links to the fork are
+clearly marked. For example, in a pull-request, we list the issues that the
+pull-request will close in both trackers:
+
+----
+Closes issues
+-------------
+- #??
+- #??
+
+Closes issues in organization/fork
+----------------------------------
+- organization/fork#??
+- organization/fork#??
+- organization/fork#??
+- organization/fork#??
+----
+
+To read more about linking to issues in GitHub,
+see https://help.github.com/en/articles/autolinked-references-and-urls.
+
+=== Protect master
+
+On GitHub, configure your fork to protect the _master_ branch from pushes.
+This is found under the settings of the project.
+The master branch belongs to upstream.
+Your fork will receive changes from upstream through master.
+You and your developers will never change master directly.
+
+
+=== Add developers to the fork
+
+Add your developers to the fork.
+It is possible to create teams in GitHub and then add the teams to the fork.
+This is useful if you have fixed teams.
+However, you may also want to consider allowing developers to move between
+teams as their personal interest or need of expertise takes them.
+In this case, you can just add developers to the fork directly.
+
+
+=== Create the Scrum Board
+
+Using GitHub's project boards,
+create the _Scrum Board_ with the following columns:
+
+* Product Backlog
+* Ready
+* In Sprint
+* Done
+
+NOTE: GitLab has "boards" instead of "project boards".
+
+
+=== Define _ready_ and _done_
+
+With your teams, create a https://www.scruminc.com/definition-of-ready/[definition of ready] and
+a https://www.scruminc.com/definition-of-done/[definition of done], and post them
+as notes in the `Ready` and `Done` columns of the Scrum Board respectively.
+
+NOTE: GitLab does not have notes.
+Instead, you could post your definitions of ready and done in your project's wiki.
+
+
+=== Update labels
+
+On GitHub, delete the existing labels and create the following labels:
+
+* Type labels: Epic, Story, and Task.
+* Size labels: 1, 2, 3, 5, 8, 13, 20, and 40
+
+Optionally, add other labels to help classify issues:
+e.g., bug, feature, spike, refactor, development infrastructure,
+product infrastructure.
+
+NOTE: There are several different popular point scales for story points.
+Feel free to use whichever you and your developers prefer.
+
+
+=== Create sprint boards
+
+A sprint board is where a team creates a list of tasks that need to be
+completed to complete the original issue. There should be a board per team.
+The sprint boards should have the following columns:
+
+* Stories
+* Tasks
+* In Progress
+* Done
+
+In sprint planning 1, teams add selected stories to the stories column of their team's sprint board.
+In sprint planning 2, teams task out each story adding tasks in the task column.
+
+NOTE: Alternatively, team's can create a milestone per team per sprint.
+Then, teams task out their stories in their milestone.
+
+NOTE: Alternatively, team's can create a milestone per story.
+
+== Skills
+
+=== Cross-link related issues
+
+Use https://help.github.com/en/articles/autolinked-references-and-urls[autolinked references] to cross-link issues.
+
+* In a story, create a list of stories that must be
+
+
+== Templates
+
+
+.Story template
+----
+
+As a [role], I want [something] so that [the benefits].
+
+Acceptance criteria
+-------------------
+
+In addition to the standard definition of done, this story is considered
+complete when the following examples behave as described.
+
+[Title]
+- Given [some context]
+- When [some action is performed]
+- Then [observable outcome]
+
+[Title]
+- Given [some context]
+- When [some action is performed]
+- Then [observable outcome]
+
+Blocked by
+----------
+
+[Guide: You may not have any now. But keep this section in case some appear
+later.]
+
+The following issues must be completed before this story may be completed:
+
+- #[issue number]
+- [user-or-organization]/[project]#[issue number]
+----
+
+
+.Task template
+----
+
+----

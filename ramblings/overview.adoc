@@ -1,0 +1,366 @@
+= Work on a Project
+:sectnums:
+
+
+== Work on a project
+
+[subs=+macros]
+-----
+<<Prepare to work on a project>>
+For each issue
+    <<Claim issue>>
+    <<Create a branch and pull-request>>
+    <<Create task list>>
+    For each task
+        <<Claim task>>
+        Until task is done
+            <<Prepare environment>>
+            <<Push a small tested change>>
+            <<Update task list and issue tracker>>
+        <<Mark task as done>>
+    <<Update branch with changes in master>>
+    <<Work with maintainer to merge pull-request>>
+    <<Synchronize fork>>
+    <<Delete branch>>
+-----
+
+== Prepare to work on a project
+
+We'll assume the project you plan to work on uses git for version control,
+is hosted on a service like GitHub or GitLab, has an open source license,
+and follows fairly standard practices. These assumptions are pretty common
+at the moment.
+
+We'll also assume that the project uses the master branch as their primary
+development branch and that they tag and/or branch to release. These assumptions
+are also fairly common, but isn't always true.
+
+In any case, you should check with the project to see if the above assumptions
+are true for the project. Even if they are not, you may be able to adapt this
+workflow to fit their actual workflow. In short, knowing this workflow should
+give you a leg up in learning others.
+
+=== Install and configure Git
+
+Assuming the project you want to work on uses Git, all of your team members
+need to install and configure git on their local machines.
+
+. Download and install Git from https://git-scm.com/.
+. Follow https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup[these directions] to configure git with your identity and your
+  preferred default editor.
+
+WARNING: The identity you give Git is written into each commit you make. And
+those commits may eventually become public (especially if you plan to work on
+an open-source project). So choose wisely. Also note that some projects require
+you to sign off on a Certificate of Origin and require that the sign off uses
+a real, legal name. For such projects you'll need to use your real name.
+
+TIP: If you forget to configure a default editor, Git defaults to Vi.
+It's a ubiquitous editor in the Linux world with a fairly steep learning curve.
+In case you get stuck in the editor,
+here is a http://www.lagmonster.org/docs/vi.html[Vi Cheat Sheet].
+
+=== Create an account on the hosting service
+
+Assuming the project uses a service like GitHub or GitLab, all of your team
+members need create an account on the service which hosts the project.
+
+=== Set up your team's fork and local repositories
+
+Before your team can begin work on the project, since you cannot modify the
+original project (henceforth the upstream project) directly, your team will
+need a separate fork to work in. A fork is a copy of the upstream project in
+the same hosting service. So have one of your team navigate to the upstream
+project and fork it (usually there is a fork button in the upper right corner).
+
+Now add your other team members as contributors to your fork.
+This will allow your team mates to modify the fork directly.
+Do this by finding "permissions" or "members" under "settings" in your fork.
+Your team members will need to navigate to your fork and accept your invitation.
+
+In this workflow, contributors never modify the master branch directly. All
+changes to master will come from upstream. So master will always be a reflection
+of master in upstream. To make sure that no one in your team (including you)
+accidentally pushes changes to master, you'll want to protect the master branch
+in your fork. To do this, find something like "protecting branches" in the
+settings of your project and follow the directions there.
+
+Now each member of your team should clone your fork to their local computer.
+
+IMPORTANT: I am here
+
+== Claim issue
+
+Look for issues that you're interested in. It could be something you know
+how to do, or it could be something you would like to learn.
+
+Look for issues that are not actively being worked on. The issue is claimed if
+a maintainer is assigned to it, someone has left a comment on the issue
+claiming it, or if there is a pull-request that is cross-linked with the issue.
+If the last activity on an issue or related pull-request is recent, consider it
+claimed. Feel free to offer feedback, but leave the work to the claiming
+developer.
+
+Sometimes an issue has been claimed but hasn't been worked on in a while. If so,
+it might have been abandoned. In such cases, ask if it has been abandoned and
+if so, why? It might be that the developer got stuck or doesn't have time. If
+this is the case, you could offer to take it on. Alternatively, it could be that
+the issue was abandoned because its need is no longer clear or the maintainers
+aren't interested in it at the moment. If this is the case, it might be better
+to work on something else.
+
+As you look for an issue to work on, be a good citizen and help groom and
+triage issues. If an issue is vague, help provide details or ask clarifying
+questions. If an issue is large, suggest a way of breaking it down into smaller
+issues. If there is an unconfirmed bug, maybe try confirming it and reporting
+back your results.
+
+To claim an issue, either assign it to yourself (if you are a maintainer) or
+leave a comment on the issue that you are working on it.
+
+
+== Create a branch and pull-request
+
+Now that you have claimed an issue, it's time to get ready to work on the issue.
+
+----
+$ git checkout master #<1>
+$ git pull upstream master #<1>
+$ git push #<1>
+$ git branch BRANCH-NAME #<2>
+$ git checkout BRANCH-NAME #<3>
+$ git commit --allow-empty -m "Start work on ISSUE-NUMBEB" #<4>
+$ git push -u origin BRANCH-NAME #<5>
+----
+<1> Synchronize fork's master with upstream's so that we base our
+new branch on the most recent changes in upstream.
+<2> Create a new branch. Note that master is checked out before we run this command.
+This means that our new branch will be based on master.
+<3> Checkout the new branch so that new commits will be stored on this branch.
+<4> Create an empty commit. This will allow us to create a pull-request right away.
+Otherwise, we'd have to do some work first. Instead, you could commit a small change.
+<5> Publish the new branch to your fork.
+
+Create a pull-request from the new branch in your fork to master in upstream.
+Even though you don't have any work done yet, we create a pull-request so that
+others can track your progress. This helps raise awareness of your efforts
+so that others can plan accordingly. It also allows others to provide early
+feedback on your work which may save you time later.
+
+TIP: Services like GitHub may provide a way to open a "draft" pull-request or
+to mark a pull-request as a "work-in-progress". This tells the maintainers not
+to immediately merge a pull-request marked in this way.
+
+In the pull-request identify all the issues that should be closed when the
+pull-request is done.
+
+TIP: Services like GitHub and GitLab provide special syntax
+for indicating that an issue should be closed when the pull-request is merged
+by the maintainer. Using this syntax will cross-link the pull-request with
+the issues and make also automate the closing of these issues when the
+pull-request is merged. Very nice!
+
+If working in a team, only one team member needs to do the above.
+After the one does the above, the others do the following:
+
+----
+$ git pull #<1>
+$ git checkout BRANCH-NAME #<2>
+----
+<1> Synchronize the clone with origin.
+<2> Checkout the new branch so that new commits are made to the new branch.
+
+== Create task list
+
+It's a good idea to create an initial task list for the things that need to be
+done to complete the issue. If you are working alone, you might keep your
+list on a whiteboard or a piece of paper. If you are working in a co-located
+team, this might be some sticky notes on a wall. If you are working in a
+distributed team, you could use a to-do list tool or a separate issue tracker.
+If you are working on GitHub or GitLab, you could create a project board in your
+fork and place your tasks there. You could also enable the issue tracker in your
+fork. Just be sure that you only place tasks in your team's issue tracker and
+not issues that belong in the project's issue tracker.
+
+IMPORTANT: In a team, creating a task list is very important. It helps create
+a shared vision for how the issue will be implemented, and it will allow your
+team to complete tasks in parallel and complete the issue in parallel.
+
+NOTE: Your task list does not have to be complete. You can, and should, update
+it as you work on the issue.
+
+
+== Claim task
+
+Just like issues, you should claim tasks before you work on them. When you are
+working alone, this can help stay focused. When you are working in a team this
+ensures that everyone is aware of what others are doing, and ensures that effort
+isn't duplicated.
+
+
+== Prepare environment
+
+Before you make any changes it's important to make sure that your tools are
+prepared to work on the same project, that you have the correct branch checked
+out, and that the code currently passes all tests. This is especially important
+if you work on multiple projects or multiple issues in the same project. You
+should also consider doing this steps every time you sit down to work after
+a break.
+
+----
+cd <PATH>  #<1>
+git checkout <FEATURE-BRANCH>  #<2>
+git pull  #<3>
+run-project-tests  #<4>
+----
+<1> Position the command-line in the root of the project.
+Replace <PATH> with the path to the root of the project.
+<2> Checkout the branch for the feature you are about to work on.
+Replace <FEATURE-BRANCH> with the name of the feature branch.
+<3> Pull from your fork any changes your team members have pushed.
+<4> Run the projects tests to make sure that your development environment is
+sound and that the branch is working state. If it isn't, it is important to get
+the tests passing before you continue. Otherwise you won't know if the changes
+you make break anything. The command to run the projects tests depends on the
+project. Read the projects documentation to find out how to run its tests.
+
+Open other editors and tools you plan to use in the root of the project
+and make sure they are actually modifying or observing the same project by
+making a change in one, and observing in another. For example, in an editor
+make a change that should break the tests. Then run the tests from the command-line
+and confirm that they fail. Don't forget to undo your experiments.
+
+
+== Push a small tested change
+
+Use your development environment to make a small change to the project.
+
+Test your change against the existing tests, and you should write a test for
+any new code you wrote. It is important that all tests pass before continuing.
+
+The command to run the projects tests depends on the project.
+Read the projects documentation to find out how to run its tests.
+
+Then commit and push your changes as follows.
+
+----
+git add . #<1>
+git commit #<2>
+git pull #<3>
+git push #<4>
+----
+<1> Stage the change.
+<2> Commit the change.
+<3> Pull changes that your teammates have made.
+You may need to resolve conflicts if there were any.
+If there were new changes, be sure to rerun all tests to make sure they still pass.
+If they don't, you'll need to make more changes.
+Don't forget to commit stage and commit those changes too.
+<4> Push your changes to your team's fork making them available to the rest of your team.
+
+TIP: Keep your changes per commit small.
+Consider using TDD or BDD.
+First write one small failing test.
+Then write just enough code to pass the test.
+Then clean up your code
+(see Robert Martin's, Clean Code: A Handbook of Agile Software Craftsmanship, 2008).
+This is one commit.
+
+TIP: Write https://chris.beams.io/posts/git-commit/[good commit messages].
+
+IMPORTANT: Add `Co-authored-by: [name] <email>` lines to the end of a commit
+message give credit to multiple authors; one line per co-author.
+This is useful if you were pair- or mob-programming.
+For example `Co-authored-by: Ada Lovelace <ada.lovelace@example.org>`. It's
+important to give people credit for the work they have done. It's unethical
+to do otherwise.
+
+IMPORTANT: *Certificate of Origin* Some projects require contributors to sign a
+Certificate of Origin for each commit to certify that the contents of each commit
+may legally be distributed with the project under the project's license. This
+is often done by adding a `Signed-off-by` line to the end of a commit message.
+This is easily done by adding  `-s` to the commit command like so: `git commit -s`.
+Projects that require this will reject your commits if they do not have this
+sign-off. Be sure that you read the projects *Certificate of Origin* and only
+sign-off if you know that your commit's contents meets the certificates
+conditions. If you are not sure, ask a maintainer.
+
+
+== Update task list and issue tracker
+
+As you work, if you notice other tasks that must be done to complete the issue,
+add them to your task list.
+Similarly, if you notice other unreported issues that are not in the scope of
+your current issue, report them to the original project's issue tracker.
+
+
+== Mark task as done
+
+When you are done with a task, be sure to let your team know by updating your
+team's task list.
+
+Even if you are working alone, it's a good idea to keep track of what has been
+done so far.
+
+== Update branch with changes in master
+
+----
+$ git checkout master #<1>
+$ git pull upstream master #<1>
+$ git push #<1>
+$ git checkout BRANCH-NAME #<2>
+$ git merge master #<2>
+$ git push #<3>
+----
+<1> Synchronize your fork's master with upstream's.
+<2> Update your branch with changes from master by merging master into your branch.
+You may need to resolve conflicts at this point. Also rerun all tests. If any fail,
+make the necessary changes and commit them.
+<3> Push the now updated branch into your team's fork.
+
+== Work with maintainer to merge pull-request
+
+Go to the pull-request in the upstream project and request that a maintainer
+review your pull-request. Services like GitHub may allow you to assign a
+reviewer, or may provide a way to indicate that the pull-request is ready for
+review. At a minimum, you should be able to poke a reviewer by mentioning them
+in a comment, usually proceeded with an @.
+For example: "@StoneyJackson could you please review this pull-request."
+
+The maintainer will likely have changes they would like made before merging
+the pull-request. This is normal. To address the maintainer's feedback,
+continue making, testing, and pushing small changes as you did in
+<<Push a small tested change>>. When you feel you have addressed all of the
+maintainer's feedback, again request a review.
+
+You may also need to <<Update branch with changes in master>> if new changes
+appear in upstream's master before you can convince the maintainer to merge your
+pull-request.
+
+If and when the maintainer accepts your changes, they will merge them into
+master in upstream.
+
+== Synchronize fork and delete branches
+
+Now that your changes have been merged into master, you need to synchronize
+your fork and delete your branch which is no longer needed.
+
+One team member should update the team's fork as follows.
+
+----
+$ git checkout master
+$ git pull upstream master
+$ git push
+$ git branch --delete BRANCH-NAME
+$ git push origin --delete BRANCH-NAME
+$ git remote prune origin
+----
+
+After one does the above, the remaining team members update their clones as follows.
+
+----
+$ git checkout master
+$ git pull
+$ git branch --delete BRANCH-NAME
+$ git remote prune origin
+----
